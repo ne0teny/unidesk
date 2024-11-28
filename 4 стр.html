@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кредитті есептеу</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #6200ea;
+            padding: 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .button-container a {
+            padding: 12px 30px;
+            margin: 0 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #6200ea;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .button-container a:hover {
+            background-color: #3700b3;
+        }
+
+        .credit-form {
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .credit-form h2 {
+            text-align: center;
+            color: #6200ea;
+        }
+
+        .credit-form label {
+            font-size: 14px;
+            margin-top: 10px;
+            display: block;
+            color: #555;
+        }
+
+        .credit-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .button {
+            width: 100%;
+            padding: 14px;
+            background-color: #6200ea;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #3700b3;
+        }
+
+        .clear-button {
+            background-color: #f44336;
+            margin-top: 10px;
+        }
+
+        .clear-button:hover {
+            background-color: #e53935;
+        }
+
+        .credit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .credit-table th, .credit-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .credit-table th {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Кредитті есептеу</h1>
+    </header>
+    <div class="link-buttons">
+        <a href="index.html" class="button">Кіріс шығысты есептеу</a>
+        <a href="2%20стр.html" class="button">Ұзақ мерзімді жоспар</a>
+        <a href="3%20стр.HTML" class="button">Болашақтағы шығындарды есептеу</a>
+        <a href="4%20стр.html" class="button">Кредит мөлшерін есептеу</a>
+    </div>
+
+    <div class="credit-form" id="credit-form-1">
+        <h2>Кредитті қосу</h2>
+        <label for="credit-purpose-1">Кредит мақсаты:</label>
+        <input type="text" id="credit-purpose-1" placeholder="Кредит мақсатын жазыңыз">
+
+        <label for="loan-amount-1">Негізгі сома (KZT):</label>
+        <input type="number" id="loan-amount-1" placeholder="Кредит сомасын енгізіңіз" required>
+
+        <label for="interest-rate-1">Жылдық пайыздық ставка (%):</label>
+        <input type="number" id="interest-rate-1" placeholder="Проценттік ставканы енгізіңіз" required>
+
+        <label for="loan-term-1">Кредит мерзімі (ай):</label>
+        <input type="number" id="loan-term-1" placeholder="Кредит мерзімін айлармен енгізіңіз" required>
+
+        <button class="button" onclick="calculateLoan(1)">Есептеу</button>
+
+        <table class="credit-table" id="credit-table-1">
+            <thead>
+                <tr>
+                    <th>Айлар</th>
+                    <th>Ай сайынғы төлем (KZT)</th>
+                    <th>Толық сома (KZT)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Есептеулердің нәтижелері осында қосылады -->
+            </tbody>
+        </table>
+    </div>
+
+    <button class="button clear-button" onclick="clearAllCredits()">Барлығын тазарту</button>
+
+    <script>
+        let creditCounter = 1;
+
+        function addNewCreditForm() {
+            creditCounter++;
+            const newForm = document.createElement('div');
+            newForm.classList.add('credit-form');
+            newForm.id = `credit-form-${creditCounter}`;
+
+            newForm.innerHTML = `
+                <h2>Кредитті қосу</h2>
+                <label for="credit-purpose-${creditCounter}">Кредит мақсаты:</label>
+                <input type="text" id="credit-purpose-${creditCounter}" placeholder="Кредит мақсатын жазыңыз">
+
+                <label for="loan-amount-${creditCounter}">Негізгі сома (KZT):</label>
+                <input type="number" id="loan-amount-${creditCounter}" placeholder="Кредит сомасын енгізіңіз" required>
+
+                <label for="interest-rate-${creditCounter}">Жылдық пайыздық ставка (%):</label>
+                <input type="number" id="interest-rate-${creditCounter}" placeholder="Проценттік ставканы енгізіңіз" required>
+
+                <label for="loan-term-${creditCounter}">Кредит мерзімі (ай):</label>
+                <input type="number" id="loan-term-${creditCounter}" placeholder="Кредит мерзімін айлармен енгізіңіз" required>
+
+                <button class="button" onclick="calculateLoan(${creditCounter})">Есептеу</button>
+
+                <table class="credit-table" id="credit-table-${creditCounter}">
+                    <thead>
+                        <tr>
+                            <th>Айлар</th>
+                            <th>Ай сайынғы төлем (KZT)</th>
+                            <th>Толық сома (KZT)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Есептеулердің нәтижелері осында қосылады -->
+                    </tbody>
+                </table>
+            `;
+            document.body.appendChild(newForm);
+        }
+
+        function calculateLoan(counter) {
+            const loanAmount = parseFloat(document.getElementById(`loan-amount-${counter}`).value);
+            const interestRate = parseFloat(document.getElementById(`interest-rate-${counter}`).value) / 100;
+            const loanTerm = parseFloat(document.getElementById(`loan-term-${counter}`).value);
+
+            if (isNaN(loanAmount) || isNaN(interestRate) || isNaN(loanTerm)) {
+                alert("Барлық деректерді дұрыс енгізіңіз!");
+                return;
+            }
+
+            const monthlyInterestRate = interestRate / 12;
+            const totalMonths = loanTerm;
+
+            const monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -totalMonths));
+            const totalAmount = monthlyPayment * totalMonths;
+
+            const tableBody = document.getElementById(`credit-table-${counter}`).getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+
+            for (let month = 1; month <= totalMonths; month++) {
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = month;
+                row.insertCell(1).textContent = monthlyPayment.toFixed(2);
+                row.insertCell(2).textContent = totalAmount.toFixed(2);
+            }
+        }
+
+        function clearAllCredits() {
+            const creditContainer = document.querySelector('.credit-form');
+            creditContainer.innerHTML = '';
+            creditCounter = 0;
+            addNewCreditForm();
+        }
+    </script>
+</body>
+</html>

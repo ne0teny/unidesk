@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инфляциямен ай сайынғы жинақ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            color: #333;
+        }
+
+        /* Стиль для блока ссылок */
+        .link-buttons {
+            margin-top: 30px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .link-buttons a {
+            background-color: #6200EE;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            margin: 8px 15px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-block;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .link-buttons a:hover {
+            background-color: #3700B3;
+            transform: scale(1.05);
+        }
+
+        /* Основной контейнер */
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            margin-top: 12px;
+            display: block;
+            color: #6200EE;
+        }
+
+        input[type="number"], input[type="text"], button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #6200EE;
+            outline: none;
+        }
+
+        button {
+            background-color: #6200EE;
+            color: white;
+            cursor: pointer;
+            border: none;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+            padding: 14px;
+        }
+
+        button:hover {
+            background-color: #3700B3;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            background-color: #f1f1f1;
+            padding: 16px;
+            border-radius: 4px;
+        }
+
+        .result strong {
+            color: #6200EE;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Кнопки-ссылки -->
+    <div class="link-buttons">
+        <a href="index.html" class="button">Кіріс шығысты есептеу</a>
+        <a href="2%20стр.html" class="button">Ұзақ мерзімді жоспар</a>
+        <a href="3%20стр.HTML" class="button">Болашақтағы шығындарды есептеу</a>
+        <a href="4%20стр.html" class="button">Кредит мөлшерін есептеу</a>
+    </div>
+
+    <div class="container">
+        <h1>Инфляциямен ай сайынғы жинақ</h1>
+        <form id="calcForm">
+            <label for="goal">Не үшін жинақтағыңыз келеді:</label>
+            <input type="text" id="goal" placeholder="Мысалы, Автокөлік, Пәтер" required>
+
+            <label for="targetAmount">Қажетті сома (теңге):</label>
+            <input type="number" id="targetAmount" required>
+
+            <label for="inflationRate">Жылдық инфляция (%):</label>
+            <input type="number" id="inflationRate" required>
+
+            <label for="years">Жылдар саны:</label>
+            <input type="number" id="years" required>
+
+            <button type="submit">Есептеу</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('calcForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Формадан мәліметтерді аламыз
+            const goal = document.getElementById('goal').value.trim();
+            const targetAmount = parseFloat(document.getElementById('targetAmount').value);
+            const inflationRate = parseFloat(document.getElementById('inflationRate').value);
+            const years = parseInt(document.getElementById('years').value);
+
+            // Дұрыс енгізілген мәліметтерді тексеру
+            if (isNaN(targetAmount) || isNaN(inflationRate) || isNaN(years) || targetAmount <= 0 || inflationRate < 0 || years <= 0 || goal === "") {
+                document.getElementById('result').innerHTML = 'Барлық өрістерге дұрыс мәндер енгізіңіз.';
+                return;
+            }
+
+            // Жылдық инфляцияны айлық инфляцияға айналдыру
+            const monthlyInflationRate = inflationRate / 100 / 12;
+
+            // Айлар санын есептеу
+            const months = years * 12;
+
+            // Ай сайынғы жинақ сомасын есептеу
+            const monthlyDeposit = targetAmount / ((Math.pow(1 + monthlyInflationRate, months) - 1) / monthlyInflationRate);
+
+            // Инфляцияны ескере отырып, жалпы соманы есептеу
+            const totalAmountWithInflation = targetAmount * Math.pow(1 + (inflationRate / 100), years);
+
+            // Нәтижені көрсету
+            document.getElementById('result').innerHTML = 
+                "<strong>" + goal + "</strong>" + " мақсатында <strong>" + years + "</strong> жылда жету үшін, инфляцияны ескере отырып, қажетті сома: <strong>" + totalAmountWithInflation.toFixed(2) + " теңге</strong>." +
+                "<br>Әр ай сайын жинақтауыңыз қажет сома: <strong>" + monthlyDeposit.toFixed(2) + " теңге</strong>.";
+        });
+    </script>
+
+</body>
+</html>

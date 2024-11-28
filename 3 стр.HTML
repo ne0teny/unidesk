@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шығыстарды есепке алу</title>
+    <!-- Google Material Icons and Roboto Font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Стиль для кнопок */
+        .link-buttons {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .link-buttons a {
+            background-color: #6200ea;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            margin: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-block;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .link-buttons a:hover {
+            background-color: #3700b3;
+            transform: scale(1.05);
+        }
+
+        .category-table {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        table th {
+            background-color: #f1f1f1;
+            color: #6200ea;
+        }
+
+        table td {
+            background-color: #fff;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            border-color: #6200ea;
+            outline: none;
+        }
+
+        .button {
+            padding: 12px 24px;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #3700b3;
+        }
+
+        .clear-button {
+            background-color: #f44336;
+            margin-top: 20px;
+        }
+
+        .clear-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .total-expense {
+            font-size: 24px;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Убедитесь, что кнопки видны на мобильных устройствах */
+        .button-container a {
+            display: inline-block;
+            width: 100%;
+            max-width: 200px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        @media (min-width: 600px) {
+            .button-container a {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Кнопки-ссылки в начале -->
+    <div class="link-buttons">
+        <a href="index.html" class="button">Кіріс шығысты есептеу</a>
+        <a href="2%20стр.html" class="button">Ұзақ мерзімді жоспар</a>
+        <a href="3%20стр.HTML" class="button">Болашақтағы шығындарды есептеу</a>
+        <a href="4%20стр.html" class="button">Кредит мөлшерін есептеу</a>
+    </div>
+
+    <h1>Болашақ шығыстарды есепке алу</h1>
+
+    <!-- Категории расходов -->
+    <div class="category-table">
+        <table id="urgent-table">
+            <thead>
+                <tr>
+                    <th>Сипаттама</th>
+                    <th>Сомасы</th>
+                    <th>Мерзімі</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <input type="text" id="urgent-description" placeholder="Сипаттама">
+        <input type="number" id="urgent-amount" placeholder="Сомасы">
+        <select id="urgent-duration">
+            <option value="1">1 күн</option>
+            <option value="7">1 апта</option>
+            <option value="14">2 апта</option>
+            <option value="21">3 апта</option>
+        </select>
+        <button class="button" onclick="addExpense('urgent')">Қосу</button>
+    </div>
+
+    <div class="category-table">
+        <table id="medium-table">
+            <thead>
+                <tr>
+                    <th>Сипаттама</th>
+                    <th>Сомасы</th>
+                    <th>Мерзімі</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <input type="text" id="medium-description" placeholder="Сипаттама">
+        <input type="number" id="medium-amount" placeholder="Сомасы">
+        <select id="medium-duration">
+            <option value="30">1 ай</option>
+            <option value="60">2 ай</option>
+            <option value="90">3 ай</option>
+            <option value="120">4 ай</option>
+            <option value="150">5 ай</option>
+            <option value="180">6 ай</option>
+        </select>
+        <button class="button" onclick="addExpense('medium')">Қосу</button>
+    </div>
+
+    <div class="category-table">
+        <table id="long-term-table">
+            <thead>
+                <tr>
+                    <th>Сипаттама</th>
+                    <th>Сомасы</th>
+                    <th>Мерзімі</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <input type="text" id="long-term-description" placeholder="Сипаттама">
+        <input type="number" id="long-term-amount" placeholder="Сомасы">
+        <select id="long-term-duration">
+            <option value="365">1 жыл</option>
+            <option value="730">2 жыл</option>
+            <option value="1095">3 жыл</option>
+            <option value="1460">4 жыл</option>
+            <option value="1825">5 жыл</option>
+        </select>
+        <button class="button" onclick="addExpense('long-term')">Қосу</button>
+    </div>
+
+    <h3>Жалпы шығын:</h3>
+    <p id="total-expense" class="total-expense">0</p>
+
+    <button class="button clear-button" onclick="clearAllExpenses()">Барлығын тазарту</button>
+
+    <script>
+        function addExpense(category) {
+            let description, amount, tableId, duration;
+
+            if (category === 'urgent') {
+                description = document.getElementById('urgent-description').value;
+                amount = parseFloat(document.getElementById('urgent-amount').value);
+                tableId = 'urgent-table';
+                duration = parseInt(document.getElementById('urgent-duration').value);
+            } else if (category === 'medium') {
+                description = document.getElementById('medium-description').value;
+                amount = parseFloat(document.getElementById('medium-amount').value);
+                tableId = 'medium-table';
+                duration = parseInt(document.getElementById('medium-duration').value);
+            } else if (category === 'long-term') {
+                description = document.getElementById('long-term-description').value;
+                amount = parseFloat(document.getElementById('long-term-amount').value);
+                tableId = 'long-term-table';
+                duration = parseInt(document.getElementById('long-term-duration').value);
+            }
+
+            let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.insertCell(0).textContent = description;
+            newRow.insertCell(1).textContent = amount;
+            newRow.insertCell(2).textContent = duration + (category === 'long-term' ? ' күн' : '');
+
+            updateTotalExpense();
+
+            document.getElementById(`${category}-description`).value = '';
+            document.getElementById(`${category}-amount`).value = '';
+        }
+
+        function updateTotalExpense() {
+            let total = 0;
+            total += calculateCategoryExpense('urgent');
+            total += calculateCategoryExpense('medium');
+            total += calculateCategoryExpense('long-term');
+            document.getElementById('total-expense').textContent = total.toFixed(2);
+        }
+
+        function calculateCategoryExpense(category) {
+            let categoryTotal = 0;
+            let tableId = `${category}-table`;
+            let rows = document.getElementById(tableId).getElementsByTagName('tbody')[0].rows;
+            let duration;
+
+            if (category === 'urgent') {
+                duration = parseInt(document.getElementById('urgent-duration').value);
+            } else if (category === 'medium') {
+                duration = parseInt(document.getElementById('medium-duration').value);
+            } else if (category === 'long-term') {
+                duration = parseInt(document.getElementById('long-term-duration').value);
+            }
+
+            for (let row of rows) {
+                let amount = parseFloat(row.cells[1].textContent);
+                categoryTotal += amount * (duration / 365);
+            }
+
+            return categoryTotal;
+        }
+
+        function clearAllExpenses() {
+            document.getElementById('urgent-table').getElementsByTagName('tbody')[0].innerHTML = '';
+            document.getElementById('medium-table').getElementsByTagName('tbody')[0].innerHTML = '';
+            document.getElementById('long-term-table').getElementsByTagName('tbody')[0].innerHTML = '';
+            document.getElementById('urgent-description').value = '';
+            document.getElementById('urgent-amount').value = '';
+            document.getElementById('medium-description').value = '';
+            document.getElementById('medium-amount').value = '';
+            document.getElementById('long-term-description').value = '';
+            document.getElementById('long-term-amount').value = '';
+            document.getElementById('total-expense').textContent = '0';
+        }
+    </script>
+
+</body>
+</html>
